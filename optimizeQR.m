@@ -1,0 +1,46 @@
+% optimizeQR.m
+
+% Initial condition and reference
+x0    = [0.0873; 0; 0; 0];
+x_ref = [0; 0; 0; 0];
+
+% MPC horizon/settings
+N  = 10;
+dt = 0.01;
+
+% System params
+systemParams = struct(...
+    'm1', 11.41, ...
+    'm2', 50.14, ...
+    'L1', 0.78, ...
+    'L2', 0.73, ...
+    'I1', 0.35, ...
+    'I2', 0.25, ...
+    'g',  9.81);
+
+% GA bounds for [Q,R]
+%   params = [q1, q2, q3, q4, r1, r2]
+QR_lb = [3100, 7000, 6000, 7500, 0.018, 0.009];
+QR_ub = [6900, 9000, 8000, 9500, 0.022, 0.011];
+
+opts = optimoptions('gamultiobj',...
+    'PopulationSize', 50,...
+    'MaxGenerations', 20,...
+    'Display','iter',...
+    'UseParallel', true,...
+    'PlotFcn', @gaplotpareto);
+
+[optParams, optObjs] = gamultiobj( ...
+    @(p)paretoObjectiveEKF(p, x0, x_ref, N, dt, systemParams), ...
+    6,[],[],[],[], QR_lb,QR_ub,[], opts);
+
+disp('Optimal parameters:'); 
+disp(optParams);
+
+disp('Pareto Front [RMSE, Energy]:');
+disp(optObjs);
+
+figure; 
+scatter(optObjs(:,1), optObjs(:,2),'filled');
+xlabel('RMSE'); ylabel('Energy'); grid on;
+title('Pareto Front');
