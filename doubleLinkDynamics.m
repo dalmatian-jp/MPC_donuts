@@ -33,7 +33,7 @@ function dxdt = doubleLinkDynamics(t, x, u, params)
     M = [M11, M12; M21, M22];
 
     % Compute the Coriolis Matrix (C)
-    C1 = -m2*L1*L2*sin(q2)*dq2^2 - 2*m2*L1*L2*sin(q2)*dq1*dq2;
+    C1 = -m2*L1*L2*sin(q2)*dq2^2 - 2*m2*L1*(L2/2)*sin(q2)*dq1*dq2;
     C2 = m2*L1*L2*sin(q2)*dq1^2;
     C = [C1; C2];
 

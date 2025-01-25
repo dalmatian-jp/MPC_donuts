@@ -85,7 +85,7 @@ function u_opt = mpcController(x, x_ref, params, N, Q, R, dt)
     idx_u_start = N*nx + 1;    % states occupy the first N*nx
     idx_u_end   = N*nx + nu;   % first 2 controls
     u_opt = z(idx_u_start : idx_u_end);
-    disp(u_opt)
+    % disp(u_opt)
 end
 
 function [A, B] = linearizeSystem(x, params, dt)
@@ -103,8 +103,8 @@ function [A, B] = linearizeSystem(x, params, dt)
     state = [q1; q2; dq1; dq2];
     ctrl = [tau1; tau2];
 
-    %dxdt_sym = doubleLinkDynamics(0, state, ctrl, params);
-    dxdt_sym = takamidoubleLinkDynamics(0, state, ctrl, params);
+    dxdt_sym = doubleLinkDynamics(0, state, ctrl, params);
+    %dxdt_sym = takamidoubleLinkDynamics(0, state, ctrl, params);
     A_sym = jacobian(dxdt_sym, state);
     B_sym = jacobian(dxdt_sym, ctrl);
 
