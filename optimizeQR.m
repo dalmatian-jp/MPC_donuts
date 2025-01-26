@@ -2,7 +2,7 @@
 
 % Initial condition and reference
 x0    = [0.0873; 0; 0; 0];
-x0    = [0.20; 0; 0; 0];
+%x0    = [0.20; 0; 0; 0];
 x_ref = [0; 0; 0; 0];
 
 % MPC horizon/settings
