@@ -34,7 +34,7 @@ function  [estSmall,s_StateHistory,s_uHistory,estLarge,l_StateHistory,l_uHistory
     % "Small" perturbation
     x0_small = [0.0873; 0; 0; 0];  % from the research article
     % "Large" perturbation
-    x0_large = [0.20; 0; 0; 0];    % bigger lean (0.2618 in research article)
+    % x0_large = [0.20; 0; 0; 0];    % bigger lean (0.2618 in research article)
 
     x_ref = [0; 0; 0; 0];          % same reference for both
 
@@ -43,30 +43,30 @@ function  [estSmall,s_StateHistory,s_uHistory,estLarge,l_StateHistory,l_uHistory
         x0_small, x_ref, systemParams, dt, N, Q_mpc, R_mpc, Q_ekf, R_ekf, numSteps, ...
         'Small Perturbation'  ... % just to label the waitbar
     );
-    [estLarge,l_StateHistory,l_uHistory] = runEKFsimulation(...
-        x0_large, x_ref, systemParams, dt, N, Q_mpc, R_mpc, Q_ekf, R_ekf, numSteps, ...
-        'Large Perturbation'  ...
-    );
+    % [estLarge,l_StateHistory,l_uHistory] = runEKFsimulation(...
+    %     x0_large, x_ref, systemParams, dt, N, Q_mpc, R_mpc, Q_ekf, R_ekf, numSteps, ...
+    %     'Large Perturbation'  ...
+    % );
 
     %% 6) Plot a single-phase portrait for ANKLE (q1,dq1) with 2 trajectories
     figure('Name','Ankle Phase Portrait','Color','white');
     plot(estSmall(:,1), estSmall(:,3), 'b-', 'LineWidth',2, ...
         'DisplayName','Small Perturbation'); hold on;
-    plot(estLarge(:,1), estLarge(:,3), 'r--','LineWidth',2, ...
-        'DisplayName','Large Perturbation');
-    xlabel('q_1 (rad)'); ylabel('dq_1 (rad/s)');
-    title('Estimated Ankle Phase Portrait');
-    legend('Location','best'); grid on;
+    % plot(estLarge(:,1), estLarge(:,3), 'r--','LineWidth',2, ...
+    %     'DisplayName','Large Perturbation');
+    % xlabel('q_1 (rad)'); ylabel('dq_1 (rad/s)');
+    % title('Estimated Ankle Phase Portrait');
+    % legend('Location','best'); grid on;
 
     %% 7) Plot a single-phase portrait for HIP (q2,dq2) with 2 trajectories
     figure('Name','Hip Phase Portrait','Color','white');
     plot(estSmall(:,2), estSmall(:,4), 'b-', 'LineWidth',2, ...
         'DisplayName','Small Perturbation'); hold on;
-    plot(estLarge(:,2), estLarge(:,4), 'r--','LineWidth',2, ...
-        'DisplayName','Large Perturbation');
-    xlabel('q_2 (rad)'); ylabel('dq_2 (rad/s)');
-    title('Estimated Hip Phase Portrait');
-    legend('Location','best'); grid on;
+    % plot(estLarge(:,2), estLarge(:,4), 'r--','LineWidth',2, ...
+    %     'DisplayName','Large Perturbation');
+    % xlabel('q_2 (rad)'); ylabel('dq_2 (rad/s)');
+    % title('Estimated Hip Phase Portrait');
+    % legend('Location','best'); grid on;
 
 end  % end of twoPerturbationsEKF
 
