@@ -21,37 +21,46 @@ function dxdt = doubleLinkDynamics_takami(t, x, u, params)
     I1 = params.I1; I2 = params.I2;
     g = params.g;
 
+    r1 = 0.64*L1;
+    r2 = 0.36*L2;
+
     % Unpack states
     q1 = x(1); q2 = x(2); % Angles
     dq1 = x(3); dq2 = x(4); % Angular velocities
 
-    % Compute the Mass Matrix (M)
-    M11 = I1 + m2*L1^2 ...
-         + I2 + m2*(L2/2)^2 ...
-         + 2*m2*L1*(L2/2)*cos(q2);
+    q1_new = q1 + pi/2;
 
+    a = I1 + I2 + m1*r1^2 + m2*(L1^2 + r2^2);
+    b = m2*L1*r2;
+    d = I2 + m2*r2^2;
+    
+    s1 = sin(q1_new);
+    s2 = sin(q2);
+    c1 = cos(q1_new);
+    c2 = cos(q2);
+    c12 = cos(q1_new + q2);
+
+    % Compute the Mass Matrix (M)
+    M11 = a+2*b*c2;
     % M12
-    M12 = I2 + m2*(L2/2)^2 ...
-         + m2*L1*(L2/2)*cos(q2);
+    M12 = d+b*c2;
 
     % M行列
     M = [ M11, M12;
-          M12, (I2 + m2*(L2/2)^2) ];
+          M12, d];
 
 
     % Compute the Coriolis Matrix (C)
-    C1 = - m2*L1*(L2/2)*sin(q2)*(2*dq1*dq2 + dq2^2);
-    C2 =   m2*L1*(L2/2)*sin(q2)* dq1^2;
-    C = [C1; C2];
+    C = [-b*s2*dq2, -b*s2*(dq1+dq2);
+           b*s2*dq2, 0];
 
     % Compute the Gravity Vector (F)
-    G1 = - ((m1*(L1/2) + m2*L1)*g*sin(q1) ...
-           +  m2*(L2/2)*g*sin(q1 + q2));
-    G2 = - m2*(L2/2)*g*sin(q1 + q2);
+    G1 = -g*((m1*r1 + m2*L1)*c1 + m2*r2*c12);
+    G2 = -g*m2*r2*c12;
     G = [G1; G2];
 
     % Solve for angular accelerations
-    ddq = (M + 1e-6 * eye(2)) \ (u - C - G);
+    ddq = (M + 1e-6 * eye(2)) \ (u - C*[dq1;dq2] - G);
 
     % Return state derivatives
     dxdt = [dq1; dq2; ddq];
