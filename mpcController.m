@@ -104,7 +104,7 @@ function [A, B] = linearizeSystem(x, params, dt)
     ctrl = [tau1; tau2];
 
     dxdt_sym = doubleLinkDynamics(0, state, ctrl, params);
-    % dxdt_sym = doubleLinkDynamics_takami(0, state, ctrl, params);
+    dxdt_sym = doubleLinkDynamics_takami(0, state, ctrl, params);
     A_sym = jacobian(dxdt_sym, state);
     B_sym = jacobian(dxdt_sym, ctrl);
 
