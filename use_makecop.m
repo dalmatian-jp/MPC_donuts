@@ -10,7 +10,8 @@ systemParams = struct(...
     'g',    9.81);
 
 % データの抽出
-data = readtable('data/EKF_Simulation_AllData_takami.csv');
+path = "data/AllData_takami_60s.csv"
+data = readtable(path);
 
 q1_s = data.q1_s_true;
 q2_s = data.q2_s_true;
@@ -61,4 +62,4 @@ data_wt_cop = addvars(data, COP_s_values, COP_l_values, ...
                'NewVariableNames', {'COP_s', 'COP_l'});
 
 % CSVファイルにヘッダー付きで保存
-writetable(data_wt_cop, 'data/EKF_Simulation_AllData_takami_with_COP.csv');
+writetable(data_wt_cop, 'data/AllData_takami_60s_with_COP.csv');
