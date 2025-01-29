@@ -195,7 +195,7 @@ function  [estSmall,s_StateHistory,s_uHistory] = for50(numSteps)
     end
     
 
-for i = 1:50
+for i = 101:150
     [estSmall, s_StateHistory, s_uHistory] = for50(3000);
     allDataMatrix = [estSmall, s_StateHistory, s_uHistory];
                     %  estLarge, l_StateHistory, l_uHistory];
