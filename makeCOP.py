@@ -7,10 +7,10 @@ def makeCOP(x, u, params, pvstate):
     q1, q2, dq1, dq2 = x
 
     l1, s1, m1, J1, l2, s2, m2, J2, g = pvstate
-    q0 = 4 * np.pi / 180  # Convert degrees to radians
-    l0 = 0.27
-    k1 = 0.468
-    k2 = 0.73
+    q0 = 30 * np.pi / 180  # Convert degrees to radians
+    l0 = 0.28
+    k1 = 0.175
+    k2 = 0.323
 
     dxdt = double_link_dynamics_takami(0, x, u, params)  # Use existing dynamics function
     ddq1 = dxdt[2]  # Extract angular acceleration of q1
